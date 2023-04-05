@@ -7,6 +7,7 @@ const { connectDb } = require("./utils/database");
 
 const port = process.env.PORT || 8000;
 
+require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 
