@@ -1,3 +1,4 @@
+const { createCart, getCartByUserId } = require("../utils/cart");
 const { findUser, addUser, getUser } = require("../utils/user");
 
 const router = require("express").Router();
@@ -20,19 +21,32 @@ router.post("/sign-up", async (req, res, next) => {
         role: 0,
       });
 
+      // create cart if user sign-up
+      const cart = await createCart(response.insertedId);
+
       res.status(200).send({
         message: "Đăng ký thành công",
-        data: response,
+        data: {
+          ...response,
+          cartId: cart.insertedId,
+        },
       });
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).send({
+      message: "system error",
+      error: -1,
+    });
+  }
 });
 
 // Sign in
 router.post("/sign-in", async (req, res, next) => {
   try {
     const data = await findUser(req.body);
-    if (data)
+    if (data) {
+      const cart = await getCartByUserId(data._id);
+      console.log("cart", cart);
       res.status(200).send({
         message: "Đăng nhập thành công",
         data: {
@@ -40,15 +54,21 @@ router.post("/sign-in", async (req, res, next) => {
           token: data.token,
           email: data.email,
           role: data.role,
+          cartId: cart._id,
         },
       });
-    else {
+    } else {
       res.status(200).send({
         message: "Email hoặc mật khẩu không tồn tại",
         error: 2,
       });
     }
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).send({
+      message: "system error",
+      error: -1,
+    });
+  }
 });
 
 // Lấy tất cả tài khoản (có role là 0)
@@ -63,7 +83,12 @@ router.get("/", async (req, res, next) => {
       error: 0,
       data,
     });
-  } catch (error) {}
+  } catch (error) {
+    res.status(500).send({
+      message: "system error",
+      error: -1,
+    });
+  }
 });
 
 module.exports = router;

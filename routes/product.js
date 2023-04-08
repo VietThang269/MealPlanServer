@@ -1,3 +1,4 @@
+const { getProductById } = require("../utils/product");
 const {
   createNewProduct,
   getAllProduct,
@@ -51,7 +52,25 @@ router.get("/", async (req, res, next) => {
       data,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).send({
+      message: "system error",
+      error: -1,
+      data: null,
+    });
+  }
+});
+
+// Lấy sản phẩm theo id
+router.get("/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const data = await getProductById(id);
+    res.status(201).send({
+      message: "edit success",
+      error: 0,
+      data,
+    });
+  } catch (error) {
     res.status(500).send({
       message: "system error",
       error: -1,

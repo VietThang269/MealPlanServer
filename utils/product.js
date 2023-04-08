@@ -31,6 +31,15 @@ async function editProduct(id, data) {
   return reponse;
 }
 
+//Lấy bằng id
+async function getProductById(id) {
+  const response = await getProductCollection().findOne({
+    _id: new ObjectId(id),
+  });
+
+  return response;
+}
+
 //Xóa sản phẩm
 async function deleteProduct(id) {
   const reponse = await getProductCollection().deleteOne({
@@ -42,6 +51,7 @@ async function deleteProduct(id) {
 module.exports = {
   createNewProduct,
   getAllProduct,
+  getProductById,
   editProduct,
   deleteProduct,
 };
