@@ -83,29 +83,30 @@ router.get("/user/:id", async (req, res, next) => {
 });
 
 // Cập nhật sản phẩmvtrong Cart
-// router.put("/:id", async (req, res, next) => {
-//   try {
-//     const id = req.params;
-//     const cart = await updateCart(id, req.body);
+router.put("/:id", async (req, res, next) => {
+  try {
+    const id = req.params;
+    const cart = await updateCart(id, req.body);
 
-//     res.status(201).send({
-//       message: "edit success",
-//       error: 0,
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).send({
-//       message: "system error",
-//       error: -1,
-//     });
-//   }
-// });
+    res.status(201).send({
+      message: "edit success",
+      error: 0,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      message: "system error",
+      error: -1,
+    });
+  }
+});
 
 // Thêm sản phẩm vào Cart
-router.put("/add", async (req, res, next) => {
+router.put("/add/:id", async (req, res, next) => {
   try {
+    const { id } = req.params;
     const data = req.body;
-    const reponse = await addToCart(data);
+    const reponse = await addToCart({ ...data, id });
     res.status(201).send({
       message: "add success",
       error: 0,

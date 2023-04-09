@@ -46,7 +46,6 @@ router.post("/sign-in", async (req, res, next) => {
     const data = await findUser(req.body);
     if (data) {
       const cart = await getCartByUserId(data._id);
-      console.log("cart", cart);
       res.status(200).send({
         message: "Đăng nhập thành công",
         data: {
@@ -71,10 +70,37 @@ router.post("/sign-in", async (req, res, next) => {
   }
 });
 
+// Sign in admin
+// Sign in
+router.post("/sign-in-admin", async (req, res, next) => {
+  try {
+    const data = await findUser(req.body);
+    if (data) {
+      res.status(200).send({
+        message: "Đăng nhập thành công",
+        data: {
+          id: data._id,
+          token: data.token,
+          email: data.email,
+          role: data.role,
+        },
+      });
+    } else {
+      res.status(200).send({
+        message: "Email hoặc mật khẩu không tồn tại",
+        error: 2,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "system error",
+      error: -1,
+    });
+  }
+});
 // Lấy tất cả tài khoản (có role là 0)
 // role: 1 - admin
 // role: 0 - user
-
 router.get("/", async (req, res, next) => {
   try {
     const data = await getUser();

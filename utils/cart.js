@@ -34,9 +34,13 @@ async function getCartByUserId(userId) {
 async function updateCart(id, list) {
   const result = await getCartCollection().updateOne(
     { _id: new ObjectId(id) },
-    { $set: list }
+    {
+      $set: {
+        list,
+      },
+    }
   );
-  return result.modifiedCount > 0;
+  return result;
 }
 
 async function addToCart(data) {
@@ -45,7 +49,6 @@ async function addToCart(data) {
     "list.id": new ObjectId(data.productId),
   });
 
-  console.log(data);
   if (result) {
     // update quanity
     const newList = result.list.map((item, _) => {

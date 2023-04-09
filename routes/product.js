@@ -31,6 +31,7 @@ router.post("/", async (req, res, next) => {
     res.status(201).send({
       message: "created success",
       error: 0,
+      data: response,
     });
   } catch (error) {
     console.log(error);
@@ -90,7 +91,6 @@ router.put("/:id", async (req, res, next) => {
       error: 0,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).send({
       message: "system error",
       error: -1,
@@ -103,9 +103,11 @@ router.delete("/:id", async (req, res, next) => {
   try {
     const id = req.params;
     const reponse = await deleteProduct(id);
+
     res.status(201).send({
       message: "delete success",
       error: 0,
+      data: id,
     });
   } catch (error) {
     console.log(error);
