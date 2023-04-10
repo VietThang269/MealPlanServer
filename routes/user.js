@@ -1,5 +1,6 @@
+const { ObjectId } = require("mongodb");
 const { createCart, getCartByUserId } = require("../utils/cart");
-const { findUser, addUser, getUser } = require("../utils/user");
+const { findUser, addUser, getUser, deleteUser } = require("../utils/user");
 
 const router = require("express").Router();
 
@@ -109,6 +110,31 @@ router.get("/", async (req, res, next) => {
       error: 0,
       data,
     });
+  } catch (error) {
+    res.status(500).send({
+      message: "system error",
+      error: -1,
+    });
+  }
+});
+
+router.delete("/:idAdmin/:id", async (req, res, next) => {
+  try {
+    const { idAdmin, id } = req.params;
+    const data = await findUser({ _id: new ObjectId(idAdmin) });
+    if (data.role === 0) {
+      res.status(200).send({
+        message: "Not authorized",
+        error: -2,
+      });
+    } else {
+      const data = await deleteUser(id);
+      res.status(200).send({
+        message: "Success",
+        error: 0,
+        data,
+      });
+    }
   } catch (error) {
     res.status(500).send({
       message: "system error",

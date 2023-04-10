@@ -42,9 +42,10 @@ async function getProductById(id) {
 
 //Xóa sản phẩm
 async function deleteProduct(id) {
-  const reponse = await getProductCollection().deleteOne({
+  const response = await getProductCollection().deleteOne({
     _id: new ObjectId(id),
   });
+
   return response;
 }
 
