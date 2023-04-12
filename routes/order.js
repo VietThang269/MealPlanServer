@@ -85,7 +85,7 @@ router.get("/:productId", async (req, res, next) => {
 });
 
 //get order dựa vào id của product
-router.get("/orders/product/:id", async (req, res) => {
+router.get("/product/:id", async (req, res) => {
   try {
     const productId = req.params.id;
 
@@ -98,11 +98,15 @@ router.get("/orders/product/:id", async (req, res) => {
   }
 });
 // get bằng userid
-router.get("/orders/:userId", async (req, res) => {
+router.get("/user/:userId", async (req, res) => {
   const { userId } = req.params;
   try {
     const orders = await getOrdersByUserId(userId);
-    res.json(orders);
+    res.status(200).send({
+      message: "success",
+      error: 0,
+      data: orders,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Đã xảy ra lỗi" });
