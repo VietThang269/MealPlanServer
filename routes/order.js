@@ -53,7 +53,7 @@ router.put("/:id", async (req, res) => {
         data: { id: req.params.id, status: req.body.status },
       });
     } else {
-      res.status(404).json({ success: false, message: "Order not found" });
+      res.status(200).json({ success: false, message: "Order not found" });
     }
   } catch (error) {
     res.status(500).json({ success: false, message: "System error" });

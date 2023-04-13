@@ -26,7 +26,7 @@ async function updateOrderStatus(id, status) {
     { _id: new ObjectId(id) },
     { $set: { status } }
   );
-  return response.status;
+  return response;
 }
 
 //get order dựa vào id khách hàng
