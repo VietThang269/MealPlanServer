@@ -44,7 +44,7 @@ router.post("/sign-up", async (req, res, next) => {
 // Sign in
 router.post("/sign-in", async (req, res, next) => {
   try {
-    const data = await findUser(req.body);
+    const data = await findUser({ ...req.body, role: 0 });
     if (data) {
       const cart = await getCartByUserId(data._id);
       res.status(200).send({
@@ -75,7 +75,7 @@ router.post("/sign-in", async (req, res, next) => {
 // Sign in
 router.post("/sign-in-admin", async (req, res, next) => {
   try {
-    const data = await findUser(req.body);
+    const data = await findUser({ ...req.body, role: 1 });
     if (data) {
       res.status(200).send({
         message: "Đăng nhập thành công",
