@@ -42,7 +42,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-// Lấy tất cả sản phẩm theo id mặc định
+// Lấy giỏ hàng theo id
 router.get("/:id", async (req, res, next) => {
   try {
     const id = req.params;
@@ -62,7 +62,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-// Lấy tất cả sản phẩm theo user_id
+// Lấy giỏ hàng theo userId
 router.get("/user/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -82,7 +82,7 @@ router.get("/user/:id", async (req, res, next) => {
   }
 });
 
-// Cập nhật sản phẩmvtrong Cart
+// Cập nhật sản phẩm trong Cart
 router.put("/:id", async (req, res, next) => {
   try {
     const id = req.params;

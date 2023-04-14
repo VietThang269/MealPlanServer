@@ -121,7 +121,7 @@ router.get("/", async (req, res, next) => {
 router.delete("/:idAdmin/:id", async (req, res, next) => {
   try {
     const { idAdmin, id } = req.params;
-    const data = await findUser({ _id: new ObjectId(idAdmin) });
+    const data = await findUser({ _id: new ObjectId(idAdmin), role: 1 });
     if (data.role === 0) {
       res.status(200).send({
         message: "Not authorized",
